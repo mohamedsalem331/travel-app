@@ -1,189 +1,179 @@
-//Global Variables
-const colorDivs = document.querySelectorAll('.color')
-const generateBtn = document.querySelector('.generate')
-const sliders = document.querySelectorAll('input[type="range"]')
-const currentHexes = document.querySelectorAll('.color h2')
-const popup = document.querySelector(".copy-container");
-const adjustButton = document.querySelectorAll(".adjust");
-const lockButton = document.querySelectorAll(".lock");
-const closeAdjustments = document.querySelectorAll(".close-adjustment");
-const sliderContainers = document.querySelectorAll(".sliders");
-let initialColors
+let controller;
+let slideScene;
+let pageScene;
+let detailScene;
 
-generateBtn.addEventListener('click', randomColors)
+function animateSlides() {
+  controller = new ScrollMagic.Controller();
 
-//Event Listeners
-sliders.forEach(slider => {
-    slider.addEventListener("input", hslControls)
-})
+  const sliders = document.querySelectorAll(".slide");
+  const nav = document.querySelector(".nav-header");
 
-colorDivs.forEach((slider, index) => {
-    slider.addEventListener("change", () => {
-        updateTextUI(index)
+  sliders.forEach((slide, index, slides) => {
+    const revealImg = slide.querySelector(".reveal-img");
+    const img = slide.querySelector("img");
+    const revealText = slide.querySelector(".reveal-text");
+
+    //GSAP
+    const slideTl = gsap.timeline({ defaults: { duration: 1, ease: "power2.inOut" } });
+    slideTl.fromTo(revealImg, { x: "0%" }, { x: "100%" });
+    slideTl.fromTo(img, { scale: 2 }, { scale: 1 }, "-=1");
+    slideTl.fromTo(revealText, { x: "0%" }, { x: "100%" }, "-=0.75");
+
+    //Create Scene
+    slideScene = new ScrollMagic.Scene({
+      triggerElement: slide,
+      triggerHook: 0.5,
     })
+      .setTween(slideTl)
+      .addTo(controller);
+
+    //New ANimation
+    const pageTl = gsap.timeline();
+    let nextSlide = slides.length - 1 === index ? "end" : slides[index + 1];
+    
+    pageTl.fromTo(nextSlide, { y: "0%" }, { y: "100%" });
+    pageTl.fromTo(slide, { opacity: 1, scale: 1 }, { opacity: 0, scale: 0.5 });
+    pageTl.fromTo(nextSlide, { y: "50%" }, { y: "0%" }, "-=0.5");
+
+    //Create new scene
+    pageScene = new ScrollMagic.Scene({
+      triggerElement: slide,
+      duration: "100%",
+      triggerHook: 0,
+    })
+      .setPin(slide, { pushFollowers: false })
+      .setTween(pageTl)
+      .addTo(controller);
+  })
+}
+
+let mouse = document.querySelector('.cursor')
+let mouseTxt = mouse.querySelector('span')
+let burger = document.querySelector('.burger')
+
+function cursor(e) {
+  mouse.style.top = e.pageY + "px"
+  mouse.style.left = e.pageX + "px"
+}
+
+function activeCursor(e) {
+  const item = e.target
+  if (item.id === 'logo' || item.classList.contains('burger')) {
+    mouse.classList.add('nav-active')
+  } else {
+    mouse.classList.remove('nav-active')
+  } 
+  
+  if (item.classList.contains('explore')) {
+    mouse.classList.add('explore-active')
+    gsap.to('.title-swipe', 1, {y: "0%"})
+    mouseTxt.innerText = "Tap"
+  } else {
+    mouse.classList.remove('explore-active')
+    mouseTxt.innerText = ""
+    gsap.to('.title-swipe', 1, {y: "100%"})
+  }
+
+}
+
+function navToggle(e) {
+  if (!e.target.classList.contains("active")) {
+    e.target.classList.add("active");
+    gsap.to(".line1", 0.5, { rotate: "45", y: 5, background: "black" });
+    gsap.to(".line2", 0.5, { rotate: "-45", y: -5, background: "black" });
+    gsap.to("#logo", 1, { color: "black" });
+    gsap.to(".nav-bar", 1, { clipPath: "circle(2500px at 100% -10%)" });
+    document.body.classList.add("hide");
+  } else {
+    e.target.classList.remove("active");
+    gsap.to(".line1", 0.5, { rotate: "0", y: 0, background: "white" });
+    gsap.to(".line2", 0.5, { rotate: "0", y: 0, background: "white" });
+    gsap.to("#logo", 1, { color: "white" });
+    gsap.to(".nav-bar", 1, { clipPath: "circle(50px at 100% -10%)" });
+    document.body.classList.remove("hide");
+  }
+}
+
+const logo = document.querySelector("#logo");
+barba.init({
+  views: [
+    {
+      namespace: 'home',
+      beforeEnter() {
+        animateSlides();
+        logo.href = "./index.html";
+      },
+      beforeLeave() {
+        slideScene.destroy()
+        pageScene.destroy()
+        controller.destroy()
+      }
+    },
+    {
+      namespace: 'fashion',
+      beforeEnter() {
+        logo.href = "../index.html";
+        detailAnimation();
+      }, 
+      beforeLeave() {
+        controller.destroy();
+        detailScene.destroy();
+      }
+    }
+  ],
+  transitions: [
+    {
+      leave({ current, next }) {
+        let done = this.async();
+        //An Animation
+        const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+        tl.fromTo(current.container, 1, { opacity: 1 }, { opacity: 0 });
+        tl.fromTo(".swipe",0.75,{ x: "-100%" },{ x: "0%", onComplete: done },"-=0.5");
+      },
+      enter({ current, next }) {
+        let done = this.async();
+        //Scroll to the top
+        window.scrollTo(0, 0);
+        //An Animation
+        const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+        tl.fromTo(".swipe",1,{ x: "0%" },{ x: "100%", stagger: 0.2, onComplete: done });
+        tl.fromTo(next.container, 1, { opacity: 0 }, { opacity: 1 });
+        tl.fromTo(".nav-header",1,{ y: "-100%" },{ y: "0%", ease: "power2.inOut" },"-=1.5");
+      }
+    }
+  ]
 })
 
-currentHexes.forEach(hex => {
-    hex.addEventListener("click", () => {
-      copyToClipboard(hex);
-    });
-});
+function detailAnimation() {
+  controller = new ScrollMagic.Controller();
+  const slides = document.querySelectorAll(".detail-slide");
 
-popup.addEventListener("transitionend", () => {
-    const popupBox = popup.children[0];
-    popup.classList.remove("active");
-    popupBox.classList.remove("active");
-});
-
-adjustButton.forEach((button, index) => {
-    button.addEventListener("click", () => {
-      openAdjustmentPanel(index);
-    });
+  slides.forEach((slide, index, slides) => {
+    const slideTl = gsap.timeline({ defaults: { duration: 1 } });
+    let nextSlide = slides.length - 1 === index ? "end" : slides[index + 1];
+    const nextImg = nextSlide.querySelector("img");
+    
+    slideTl.fromTo(slide, { opacity: 1 }, { opacity: 0 });
+    slideTl.fromTo(nextSlide, { opacity: 0 }, { opacity: 1 }, "-=1");
+    slideTl.fromTo(nextImg, { x: "50%" }, { x: "0%" });
+    //Scene
+    detailScene = new ScrollMagic.Scene({
+      triggerElement: slide,
+      duration: "100%",
+      triggerHook: 0
+    })
+      .setPin(slide, { pushFollowers: false })
+      .setTween(slideTl)
+      .addTo(controller);
   });
-
-closeAdjustments.forEach((button, index) => {
-    button.addEventListener("click", () => {
-      closeAdjustmentPanel(index);
-    });
-});
-
-lockButton.forEach((button, index) => {
-    button.addEventListener("click", e => {
-      lockLayer(e, index);
-    });
-});
-
-//Functions
-//Color Generator   
-
-function generateHex() {
-    const hexColor = chroma.random() 
-    return hexColor
 }
 
-function randomColors() {
-    initialColors = []
-    colorDivs.forEach((div, index) => {
-        const hexText = div.children[0]
-        const randomColor = generateHex()
+burger.addEventListener("click", navToggle);
+window.addEventListener("mousemove", cursor)
+window.addEventListener("mouseover", activeCursor)
 
-        if (div.classList.contains("locked")) {
-            initialColors.push(hexText.innerText);
-            return;
-        } else {
-            initialColors.push(chroma(randomColor).hex());
-        }
 
-        initialColors.push(chroma(randomColor).hex())
-        div.style.backgroundColor = randomColor
-        hexText.innerText = randomColor
 
-        checkTextContrast(randomColor, hexText)
 
-        const color = chroma(randomColor)
-        const sliders = div.querySelectorAll('.sliders input')
-        const hue = sliders[0]
-        const brightness = sliders[1]
-        const saturation = sliders[2]
 
-        colorizeSliders(color, hue, brightness, saturation)
-   }) 
-   adjustButton.forEach((button, index) => {
-    checkTextContrast(initialColors[index], button)
-    checkTextContrast(initialColors[index], lockButton[index])
-    })
-}
-
-function checkTextContrast(color,text) {
-    const luminance = chroma(color).luminance()
-    if (luminance > 0.5) {
-        text.style.color = "black"
-    } else {
-        text.style.color = "white"
-    }
-}
-
-function colorizeSliders(color, hue, brightness, saturation) {
-    //Scale Saturation
-    const noSat = color.set("hsl.s", 0);
-    const fullSat = color.set("hsl.s", 1);
-    const scaleSat = chroma.scale([noSat, color, fullSat]);
-    //Scale Brightness
-    const midBright = color.set("hsl.l", 0.5);
-    const scaleBright = chroma.scale(["black", midBright, "white"]);
-  
-    //Update Input Colors
-    saturation.style.backgroundImage = `linear-gradient(to right,${scaleSat(0)}, ${scaleSat(1)})`;
-    brightness.style.backgroundImage = `linear-gradient(to right,${scaleBright(0)},${scaleBright(0.5)} ,${scaleBright(1)})`;
-    hue.style.backgroundImage = `linear-gradient(to right, rgb(204,75,75),rgb(204,204,75),rgb(75,204,75),rgb(75,204,204),rgb(75,75,204),rgb(204,75,204),rgb(204,75,75))`;
-}
-
-function hslControls(e) {
-    const index =
-      e.target.getAttribute("data-bright") ||
-      e.target.getAttribute("data-sat") ||
-      e.target.getAttribute("data-hue");
-   
-    let sliders = e.target.parentElement.querySelectorAll('input[type="range"]');
-    const hue = sliders[0];
-    const brightness = sliders[1];
-    const saturation = sliders[2];
-  
-    const bgColor = initialColors[index]
-  
-    let color = chroma(bgColor)
-      .set("hsl.s", saturation.value)
-      .set("hsl.l", brightness.value)
-      .set("hsl.h", hue.value);
-  
-    colorDivs[index].style.backgroundColor = color;
-  
-    //Colorize inputs/sliders
-    colorizeSliders(color, hue, brightness, saturation);
-}
-
-function updateTextUI(index) {
-    const activeDiv = colorDivs[index]
-    const color = chroma(activeDiv.style.backgroundColor)
-    const textHex = activeDiv.querySelector('h2')
-    const icons = activeDiv.querySelectorAll('controls button')
-    textHex.innerText = color.hex()
-
-    checkTextContrast(color, textHex)
-    for(icon of icons) {
-        checkTextContrast(color, icon)
-    }
-}
-
-function copyToClipboard(hex) {
-    const el = document.createElement("textarea");
-    el.value = hex.innerText;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    //Pop up animation
-    const popupBox = popup.children[0];
-    popup.classList.add("active");
-    popupBox.classList.add("active");
-}
-
-function openAdjustmentPanel(index) {
-    sliderContainers[index].classList.toggle("active");
-}
-
-function closeAdjustmentPanel(index) {
-    sliderContainers[index].classList.remove("active");
-}
-                       
-function lockLayer(e, index) {
-    const lockSVG = e.target.children[0];
-    const activeBg = colorDivs[index];
-    activeBg.classList.toggle("locked");
-  
-    if (lockSVG.classList.contains("fa-lock-open")) {
-      e.target.innerHTML = '<i class="fas fa-lock"></i>';
-    } else {
-      e.target.innerHTML = '<i class="fas fa-lock-open"></i>';
-    }
-}

@@ -4,116 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Muli&display=swap" rel="stylesheet">
+    <title>Travel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+FatFace|Montserrat&display=swap" rel="stylesheet">
 </head>
-<body>     
-  <div class="colors">
-  
-    <div class="color">
-      <h2>hex</h2>
-      <div class="controls">
-        <button class="adjust"><i class="fas fa-sliders-h"></i></button>
-        <button class="lock"><i class="fas fa-lock-open"></i></button>
-      </div>
-      <div class="sliders">
-        <button class="close-adjustment">X</button>
-        <span>Hue</span>
-        <input type="range" min="0" max="360" step="1" name="hue" class="hue-input" data-hue="0">
-        <span>Brightness</span>
-        <input type="range" min="0" max="1" step="0.01" name="brightness" class="bright-input" data-bright="0">
-        <span>Saturation</span>
-        <input type="range" min="0" max="1" step="0.01" name="saturation" class="sat-input" data-sat="0">
-      </div>
-    </div>
+<body data-barba="wrapper">
 
-    <div class="color">
-      <h2>hex</h2>
-      <div class="controls">
-        <button class="adjust"><i class="fas fa-sliders-h"></i></button>
-        <button class="lock"><i class="fas fa-lock-open"></i></button>
-      </div>
-      <div class="sliders">
-        <button class="close-adjustment">X</button>
-        <span>Hue</span>
-        <input type="range" min="0" max="360" step="1" name="hue" class="hue-input" data-hue="1">
-        <span>Brightness</span>
-        <input type="range" min="0" max="1" step="0.01" name="brightness" class="bright-input" data-bright="1">
-        <span>Saturation</span>
-        <input type="range" min="0" max="1" step="0.01" name="saturation" class="sat-input" data-sat="1">
-      </div>
+  <header class="nav-header">
+    <h1><a href="./index.html" id="logo">days.</a></h1>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
     </div>
+  </header>
 
-    <div class="color">
-      <h2>hex</h2>
-      <div class="controls">
-        <button class="adjust"><i class="fas fa-sliders-h"></i></button>
-        <button class="lock"><i class="fas fa-lock-open"></i></button>
+  <main data-barba="container" data-barba-namespace="home">
+    <section class="mountain slide">
+      <div class="hero-img">
+        <img src="./Assets/forest.png" alt="forest image">
+        <div class="reveal-img"></div>
       </div>
-      <div class="sliders">
-        <button class="close-adjustment">X</button>
-        <span>Hue</span>
-        <input type="range" min="0" max="360" step="1" name="hue" class="hue-input" data-hue="2">
-        <span>Brightness</span>
-        <input type="range" min="0" max="1" step="0.01" name="brightness" class="bright-input" data-bright="2">
-        <span>Saturation</span>
-        <input type="range" min="0" max="1" step="0.01" name="saturation" class="sat-input" data-sat="2">
-      </div>
-    </div>
 
-    <div class="color">
-      <h2>hex</h2>
-      <div class="controls">
-        <button class="adjust"><i class="fas fa-sliders-h"></i></button>
-        <button class="lock"><i class="fas fa-lock-open"></i></button>
-      </div>
-      <div class="sliders">
-        <button class="close-adjustment">X</button>
-        <span>Hue</span>
-        <input type="range" min="0" max="360" step="1" name="hue" class="hue-input" data-hue="3">
-        <span>Brightness</span>
-        <input type="range" min="0" max="1" step="0.01" name="brightness" class="bright-input" data-bright="3">
-        <span>Saturation</span>
-        <input type="range" min="0" max="1" step="0.01" name="saturation" class="sat-input" data-sat="3">
-      </div>
-    </div>
+      <div class="hero-desc">
+         <div class="title">
+           <h2>Freedom at your <span class="mountain-span">fingertips.</span></h2>
+           <div class="title-swipe t-swipe1"></div>
+          </div>
 
-    <div class="color">
-      <h2>hex</h2>
-      <div class="controls">
-        <button class="adjust"><i class="fas fa-sliders-h"></i></button>
-        <button class="lock"><i class="fas fa-lock-open"></i></button>
-      </div>
-      <div class="sliders">
-        <button class="close-adjustment">X</button>
-        <span>Hue</span>
-        <input type="range" min="0" max="360" step="1" name="hue" class="hue-input" data-hue="4">
-        <span>Brightness</span>
-        <input type="range" min="0" max="1" step="0.01" name="brightness" class="bright-input" data-bright="4">
-        <span>Saturation</span>
-        <input type="range" min="0" max="1" step="0.01" name="saturation" class="sat-input" data-sat="4">
-      </div>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit placeat, quas dolor dolorem molestias deleniti temporibus numquam possimus molestiae illo quis nihil provident animi, sint iusto nobis incidunt hic optio!</p>
+      <a href="./fashion/index.html" class="explore mountain-exp">Explore</a>
+      <div class="reveal-text"></div>
     </div>
+    </section>
+
+    <section class="hike slide">
+      <div class="hero-img">
+        <img src="./Assets/hike.png" alt="hike image">
+        <div class="reveal-img"></div>
+      </div>
+
+      <div class="hero-desc">
+         <div class="title">
+           <h2>Freedom at your <span class="hike-span">fingertips.</span></h2>
+           <div class="title-swipe t-swipe1"></div>
+          </div>
+
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit placeat, quas dolor dolorem molestias deleniti temporibus numquam possimus molestiae illo quis nihil provident animi, sint iusto nobis incidunt hic optio!</p>
+      <a href="./fashion/index.html" class="explore hike-exp">Explore</a>
+      <div class="reveal-text"></div>
+    </div>
+    </section>
+
+    <section class="fashion slide">
+      <div class="hero-img">
+        <img src="./Assets/fashion.png" alt="fashion image">
+        <div class="reveal-img"></div>
+      </div>
+
+      <div class="hero-desc">
+         <div class="title">
+           <h2>Freedom at your <span class="fashion-span">fingertips.</span></h2>
+           <div class="title-swipe t-swipe1"></div>
+          </div>
+
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit placeat, quas dolor dolorem molestias deleniti temporibus numquam possimus molestiae illo quis nihil provident animi, sint iusto nobis incidunt hic optio!</p>
+      <a href="./fashion/index.html" class="explore fashion-exp">Explore</a>
+      <div class="reveal-text"></div>
+    </div>
+    </section>
+  </main>
+
+  <nav class="nav-bar">
+    <ul class="nav-links">
+      <h3>Twitter</h3>
+      <h3>Youtube</h3>
+      <h3>Instagram</h3>
+    </ul>
+    <div class="contact">
+      <h2>Stay in Touch</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, ullam nostrum quisquam facere quis ipsum magni consequatur eveniet rem similique sit vero deserunt debitis voluptas laudantium, quam sequi. Ratione, illum?</p>
+    </div>
+  </nav>
+
+  <div class="cursor">
+    <span class="cursor-text"></span>
   </div>
 
-  <div class="panel">
-    <div class="generate-panel">
-      <button class="generate"><i class="fas fa-sync"></i></button>
-      <p>Generate</p>
-    </div>
-  </div>
-
-  <div class="copy-container">
-    <div class="copy-popup">
-      <h3>Copied to ClipBoard!</h3>
-      <h4>&#128077;</h4>
-    </div>
-  </div>
-
-
-<script src="https://kit.fontawesome.com/889d3c3f3d.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js" integrity="sha512-yocoLferfPbcwpCMr8v/B0AB4SWpJlouBwgE0D3ZHaiP1nuu5djZclFEIj9znuqghaZ3tdCMRrreLoM8km+jIQ==" crossorigin="anonymous"></script>
-<script src="./App.js"></script>
+  <div class="swipe swipe1"></div>
+  <div class="swipe swipe2"></div>
+  <div class="swipe swipe3"></div>
+  <script src="https://unpkg.com/@barba/core"></script>
 </body>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js" integrity="sha512-8E3KZoPoZCD+1dgfqhPbejQBnQfBXe8FuwL4z/c8sTrgeDMFEnoyTlH3obB4/fV+6Sg0a0XF+L/6xS4Xx1fUEg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js" integrity="sha512-5/OHwmQzDSBS0Ous4/hlYoWLHd06/d2r7LdKZQVBXOA6PvOqWVXtdboiLTU7lQTGyVoKVTNkwi0ol4gHGlw5ww==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js" integrity="sha512-1dalHDkG9EtcOmCnoCjiwQ/HEB5SDNqw8d4G2MKoNwjiwMNeBAkudsBCmSlMnXdsH8Bm0mOd3tl/6nL5y0bMaQ==" crossorigin="anonymous"></script>
+<script src="./App.js"></script>
 </html>
